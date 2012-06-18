@@ -18,7 +18,17 @@ if (!function_exists('of_options'))
 		$of_pages_obj = get_pages('sort_column=post_parent,menu_order');    
 		foreach ($of_pages_obj as $of_page) {
 		    $of_pages[$of_page->ID] = $of_page->post_name; }
-		$of_pages_tmp = array_unshift($of_pages, "Select a page:");       
+		$of_pages_tmp = array_unshift($of_pages, "Select a page:");  
+		
+		//Access the Wordpress registered sidebars via an Array
+		$of_sidebars = array();
+		$of_sidebars_obj = $GLOBALS['wp_registered_sidebars'];
+		foreach ($of_sidebars_obj as $option)
+		{
+			$of_sidebars[$option['id']] = $option['name'];
+		
+		}
+		$sidebars_tmp = array_unshift($of_sidebars, "Select a sidebar:");
 	
 		//Testing 
 		$of_options_select = array("one","two","three","four","five"); 
@@ -304,7 +314,8 @@ $of_options[] = array( "name" => "Sidebar Select Example",
 		           	        "desc" => "Select your registered sidebar of choice.",
 			                "id" => "alt-sidebar",
 			                "std" => "",
-			                "type" => "sidebar_select");
+			                "type" => "select",
+			                "options" => $of_sidebars);
 
 $of_options[] = array( "name" => "Input Radio (one)",
 					"desc" => "Radio select with default of 'one'.",
